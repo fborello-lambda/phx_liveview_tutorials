@@ -1,0 +1,26 @@
+## Env variables needed
+# MIX_ENV=prod
+# PHX_SERVER=true
+# SECRET_KEY_BASE=`mix phx.gen.secret`
+
+# In config/runtime.exs -> host = System.get_env("PHX_HOST") || "localhost"
+# In config/runtime.exs ->config :counter, CounterWeb.Endpoint, url: [host: host, port: 443, scheme: "http"], ...
+
+.PHONY: deps compile-app compile run
+
+run-test: 
+	mix phx.server
+
+deps:
+	mix do deps.get --only prod
+	mix compile
+
+compile-app:
+	mix assets.deploy
+	mix phx.gen.release
+	mix release
+
+compile: deps compile-app
+
+run: 
+	_build/prod/rel/counter/bin/counter start
