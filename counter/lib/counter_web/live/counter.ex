@@ -37,7 +37,6 @@ defmodule CounterWeb.Counter do
         %{event: "presence_diff", payload: %{joins: joins, leaves: leaves}},
         %{assigns: %{present: present}} = socket
       ) do
-    IO.inspect(present, label: :before)
     new_present = present + map_size(joins) - map_size(leaves)
 
     {:noreply, assign(socket, :present, new_present)}
